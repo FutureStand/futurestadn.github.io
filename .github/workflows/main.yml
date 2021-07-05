@@ -8,11 +8,11 @@ job:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      -name: checkout
-       uses: actions/checkout@main
+      - name: checkout 
+        uses: actions/checkout@master 
        
-      -name: build-and-deploy
-       uses: testthedocs/github-pages-deploy-action@master
+      - name: build-and-deploy
+        uses: testthedocs/github-pages-deploy-action@master
         env:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BUILD_DIR: test/build/ # The folder, the action should deploy.
