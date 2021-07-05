@@ -1,0 +1,17 @@
+name: Build and Deploy
+on: 
+  push:
+    branches:
+      main
+      
+job: build-and-deploy
+  steps:
+    -name: checkout
+     uses: actions/checkout@v1
+   
+    -name: build-and-deploy
+     uses: testthedocs/github-pages-deploy-action@master
+      env:
+        ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BUILD_DIR: test/build/ # The folder, the action should deploy.
+        BUILD_SCRIPT: npm install && npm run-script build # The build script the action should run prior to deploying.
