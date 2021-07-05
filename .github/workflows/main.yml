@@ -3,17 +3,20 @@ on:
   push:
     branches:
       main
-      
-jobs: 
-  build-and-deploy:
+
+jobs:
+  build-deploy:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: checkout 
-        uses: actions/checkout@master 
-       
-      - name: build-and-deploy
-        uses: testthedocs/github-pages-deploy-action@master
-        env:
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BUILD_DIR: test/build/ # The folder, the action should deploy.
-          BUILD_SCRIPT: npm install && npm run-script build # The build script the action should run prior to deploying.
+    - uses: actions/checkout@v1
+    - run: npm ci
+    - run: npm install vuepress
+    - run: npm run build
+    
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v2.5.0
+      env:
+        ACTIONS_DEPLOY_KEY: ${{secrets.GITHUB_TOKEN}}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: .vuepress/dist
